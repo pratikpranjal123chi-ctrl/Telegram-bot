@@ -1,5 +1,7 @@
 from flask import Flask
 import threading
+import qrcode
+import io
 
 app = Flask('')
 
