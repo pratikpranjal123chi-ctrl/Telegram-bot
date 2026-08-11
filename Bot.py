@@ -320,6 +320,55 @@ elif data == "add_balance":
     username = f"@{user.username}" if user.username else user.first_name
     user_id = user.id
     
+    upi_id = "mryashisbusy@fam"
+    
+    caption_text = (
+        "💳 **UPI PAYMENT / SCAN & PAY**\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👤 **Name:** Yash\n"
+        f"🆔 **UPI ID:** `{upi_id}`\n"
+        "⏱️ **Valid for:** 5:00 minutes\n\n"
+        "📋 **How to pay:**\n"
+        "1️⃣ Scan the QR code above with GPay, PhonePe, Paytm, or Fampay\n"
+        "2️⃣ Or tap the UPI ID to copy it\n"
+        "3️⃣ Pay the exact amount\n"
+        "4️⃣ Send payment screenshot with your User ID to admin: @Godmodesx\n"
+        "━━━━━━━━━━━━━━━━━━━━━━"
+    )
+    
+    keyboard = [
+        [InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    try:
+        await query.message.delete()
+        await context.bot.send_photo(
+            chat_id=query.message.chat_id,
+            photo="https://i.ibb.co/6y4G8v6/qr.jpg",
+            caption=caption_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        text_fallback = (
+            "💳 **UPI PAYMENT / SCAN & PAY**\n\n"
+            f"👤 **Name:** Yash\n"
+            f"🆔 **UPI ID:** `{upi_id}`\n\n"
+            "Please pay and send screenshot to @Godmodesx"
+        )
+        await query.edit_message_text(text_fallback, reply_markup=reply_markup, parse_mode="Markdown")
+    
+    try:
+        print(f"New purchase attempt by user: {username} (ID: {user_id})")
+    except Exception as err:
+        print(f"Error: {err}")
+        
+    
+    user = query.from_user
+    username = f"@{user.username}" if user.username else user.first_name
+    user_id = user.id
+    
     text = "💳 **Payment & Balance Instructions:**\n\nTo purchase the key, please send payment to the admin and share a screenshot along with your User ID.\n\n👤 **Admin:** @Godmodesx"
     
     await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]]), parse_mode="Markdown")
