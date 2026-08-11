@@ -244,7 +244,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("🔙 Back to Menu", callback_data="main_menu")]]
         ),
-        parse_mode="Markdown",)
+        parse_mode="Markdown",
+    )
     elif data.startswith("item_"):
     await query.answer()
     
