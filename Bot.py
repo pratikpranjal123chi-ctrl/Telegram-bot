@@ -245,103 +245,69 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [[InlineKeyboardButton("🔙 Back to Menu", callback_data="main_menu")]]
         ),
         parse_mode="Markdown",
-    )
-
-  elif data == "share":
-    await query.answer()
-    await query.edit_message_text(
-        "💶 **Share Bot:**\n\nHelp support our store by sharing this bot with"
-        f" your friends and gaming groups!\n\n👉 https://t.me/{context.bot.username}",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Back to Menu", callback_data="main_menu")]]
-        ),
-        parse_mode="Markdown",
-    )
-
-  elif data == "support":
-    await query.answer()
-    await query.edit_message_text(
-        "💬 **Customer Support:**\n\nHaving issues with keys or payment? Contact"
-        " our 24/7 admin support team directly.\n\n👤 Admin: `@godcheats`",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("🔙 Back to Menu", callback_data="main_menu")]]
-        ),
-        parse_mode="Markdown",
-    )
-
-    
-  elifl data.startswith("item_"):
+    )elif data.startswith("item_"):
     await query.answer()
     
     products = {
-        "item_21": {"name": "SILENT-CHEATS LITE", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
-        "item_22": {"name": "SILENT-CHEATS BRUTAL", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
-        "item_23": {"name": "SILENT-CHEATS APK MOD", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
-        "item_24": {"name": "Rapid Core - Root Safe", "prices": {"1 Day": 90, "7 Days": 299, "30 Days": 1099}},
-        "item_25": {"name": "PRIME APKMOD", "prices": {"1 Day": 90, "7 Days": 350}},
-        "item_26": {"name": "PATOTEAM APKMOD", "prices": {"1 Day": 250, "3 Days": 400, "7 Days": 700, "30 Days": 1400}},
-        "item_27": {"name": "IOS-MIGUL PRO", "prices": {"1 Day": 300, "7 Days": 1000, "30 Days": 2000}},
-        "item_28": {"name": "Haxx Cker Pro", "prices": {"10 Days": 550, "20 Days": 1050, "30 Days": 1450}},
-        "item_29": {"name": "HG CHEAT APKMOD", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "30 Days": 900}},
+        "item_21": {"name": "SILENT-CHEATS LITE", "price": 90},
+        "item_22": {"name": "SILENT-CHEATS BRUTAL", "price": 90},
+        "item_23": {"name": "SILENT-CHEATS APK MOD", "price": 90},
+        "item_24": {"name": "Rapid Core - Root Safe", "price": 90},
+        "item_25": {"name": "PRIME APKMOD", "price": 90},
+        "item_26": {"name": "PATOTEAM APKMOD", "price": 250},
+        "item_27": {"name": "IOS-MIGUL PRO", "price": 300},
+        "item_28": {"name": "Haxx Cker Pro", "price": 550},
+        "item_29": {"name": "HG CHEAT APKMOD", "price": 90}
     }
     
-    item = products.get(data, {"name": "Product", "prices": {"1 Day": 100}})
+    item_info = products.get(data, {"name": "Product", "price": 90})
+    item_name = item_info["name"]
+    price = item_info["price"]
     
-    text = f"🎮 **{item['name']}**\n"
-    text += "────────────────────\n\n"
-    
-    buttons = []
-    
-    for duration, price in item["prices"].items():
-        if "1 Day" in duration:
-            disc_price = price - 10
-        elif "3 Day" in duration:
-            disc_price = price - 20
-        elif "7 Day" in duration:
-            disc_price = price - 30
-        elif "20 Day" in duration or "30 Day" in duration:
-            disc_price = price - 40
-        else:
-            disc_price = price - 10
-        
-        text += f"⏱️ **{duration}**\n"
-        text += f"💰 ~₹{price}~ **₹{disc_price}**\n"
-        text += f"✅ In Stock\n\n"
-        
-        buttons.append([InlineKeyboardButton(f"📦 Buy {duration} - ₹{disc_price}", callback_data="add_balance")])
-    
-    text += "👇 **Select duration below:**"
-    buttons.append([InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")])
-    
-    reply_markup = InlineKeyboardMarkup(buttons)
-    await query.edit_message_text
-      
-elif data == "add_balance":
-    await query.answer()
-    
-    user = query.from_user
-    username = f"@{user.username}" if user.username else user.first_name
-    user_id = user.id
-    
+    order_id = f"ORDE{abs(hash(str(query.from_user.id) + str(price) + item_name)) % 10000000000}EF11"
     upi_id = "mryashisbusy@fam"
     
+    upi_url = f"upi://pay?pa={upi_id}&pn=Yash&am={price}.00&cu=INR&tn={order_id}"
+    
+    img = qrcode.make(upi_url)
+    bio = io.BytesIO()
+    bio.name = 'qr.png'
+    img.save(bio, 'PNG')
+    bio.seek(0)
+    
     caption_text = (
-        "💳 **UPI PAYMENT / SCAN & PAY**\n\n"
-        "━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"👤 **Name:** Yash\n"
+        "📳 **UPI PAYMENT**\n"
+        "────────────────────────\n"
+        f"🎮 **Item:** {item_name}\n"
+        f"💵 **Amount: ₹{price}.00 INR**\n"
+        f"🔒 **Order:** `{order_id}`\n"
         f"🆔 **UPI ID:** `{upi_id}`\n"
         "⏱️ **Valid for:** 5:00 minutes\n\n"
-        "📋 **How to pay:
-    keyboard = [
-        [InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]
-    ]
+        "📋 **How to pay**\n"
+        "1️⃣ Scan the QR with any UPI app (GPay, PhonePe, Paytm)\n"
+        "2️⃣ Or tap the UPI ID above to copy it\n"
+        f"3️⃣ Pay **exactly ₹{price}.00 INR**\n"
+        "4️⃣ Wait — keys auto-deliver in seconds\n\n"
+        "⚠️ _Pay the EXACT amount or auto-verify will fail._\n"
+        "_This QR is single-use and expires in 5 minutes._"
+    )
+    
+    keyboard = [[InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     try:
         await query.message.delete()
         await context.bot.send_photo(
             chat_id=query.message.chat_id,
-            photo="
+            photo=bio,
+            caption=caption_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        print(f"Error: {e}")
+        
+
 # 4. Main Application Setup
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
