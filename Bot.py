@@ -269,25 +269,60 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
   elif data.startswith("item_"):
     await query.answer()
-    await query.edit_message_text(
-        "🛒 **Product Selected:**\n\nTo purchase this key, please ensure you have"
-        " enough balance or contact the admin for instant delivery.",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "💳 Buy Now / Pay", callback_data="add_balance"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        "🔙 Back to Shop", callback_data="shop"
-                    )
-                ],
-            ]
-        ),
-        parse_mode="Markdown",
-    )
+    
+    products = {
+        "item_21": {"name": "SILENT-CHEATS LITE", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
+        "item_22": {"name": "SILENT-CHEATS BRUTAL", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
+        "item_23": {"name": "SILENT-CHEATS APK MOD", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
+        "item_24": {"name": "Rapid Core - Root Safe", "prices": {"1 Day": 90, "7 Days": 299, "30 Days": 1099}},
+        "item_25": {"name": "PRIME APKMOD", "prices": {"1 Day": 90, "7 Days": 350}},
+        "item_26": {"name": "PATOTEAM APKMOD", "prices": {"1 Day": 250, "3 Days": 400, "7 Days": 700, "30 Days": 1400}},
+        "item_27": {"name": "IOS-MIGUL PRO", "prices": {"1 Day": 300, "7 Days": 1000, "30 Days": 2000}},
+        "item_28": {"name": "Haxx Cker Pro", "prices": {"10 Days": 550, "20 Days": 1050, "30 Days": 1450}},
+        "item_29": {"name": "HG CHEAT APKMOD", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "30 Days": 900}},
+    }
+    
+    item = products.get(data, {"name": "Product", "prices": {"1 Day": 100}})
+    
+    text = f"🎮 **{item['name']}**\n"
+    text += "────────────────────\n\n"
+    
+    buttons = []
+    
+    for duration, price in item["prices"].items():
+        if "1 Day" in duration:
+            disc_price = price - 10
+        elif "3 Day" in duration:
+            disc_price = price - 20
+        elif "7 Day" in duration:
+            disc_price = price - 30
+        elif "20 Day" in duration or "30 Day" in duration:
+            disc_price = price - 40
+        else:
+            disc_price = price - 10
+        
+        text += f"⏱️ **{duration}**\n"
+        text += f"💰 ~₹{price}~ **₹{disc_price}**\n"
+        text += f"✅ In Stock\n\n"
+        
+        buttons.append([InlineKeyboardButton(f"📦 Buy {duration} - ₹{disc_price}", callback_data="add_balance")])
+    
+    text += "👇 **Select duration below:**"
+    buttons.append([InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")])
+    
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+
+# 4. Main Application Setup
+def main():
+    app = Application.builder().token(BOT_TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_handler))
+
+    print("Bot is running...")
+    app.run_polling()
+    
 
 
 # 4. Main Application Setup
