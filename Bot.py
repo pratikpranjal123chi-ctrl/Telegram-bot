@@ -270,6 +270,68 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     
+  elifl data.startswith("item_"):
+    await query.answer()
+    
+    products = {
+        "item_21": {"name": "SILENT-CHEATS LITE", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
+        "item_22": {"name": "SILENT-CHEATS BRUTAL", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
+        "item_23": {"name": "SILENT-CHEATS APK MOD", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "14 Days": 600, "30 Days": 900}},
+        "item_24": {"name": "Rapid Core - Root Safe", "prices": {"1 Day": 90, "7 Days": 299, "30 Days": 1099}},
+        "item_25": {"name": "PRIME APKMOD", "prices": {"1 Day": 90, "7 Days": 350}},
+        "item_26": {"name": "PATOTEAM APKMOD", "prices": {"1 Day": 250, "3 Days": 400, "7 Days": 700, "30 Days": 1400}},
+        "item_27": {"name": "IOS-MIGUL PRO", "prices": {"1 Day": 300, "7 Days": 1000, "30 Days": 2000}},
+        "item_28": {"name": "Haxx Cker Pro", "prices": {"10 Days": 550, "20 Days": 1050, "30 Days": 1450}},
+        "item_29": {"name": "HG CHEAT APKMOD", "prices": {"1 Day": 90, "3 Days": 180, "7 Days": 350, "30 Days": 900}},
+    }
+    
+    item = products.get(data, {"name": "Product", "prices": {"1 Day": 100}})
+    
+    text = f"🎮 **{item['name']}**\n"
+    text += "────────────────────\n\n"
+    
+    buttons = []
+    
+    for duration, price in item["prices"].items():
+        if "1 Day" in duration:
+            disc_price = price - 10
+        elif "3 Day" in duration:
+            disc_price = price - 20
+        elif "7 Day" in duration:
+            disc_price = price - 30
+        elif "20 Day" in duration or "30 Day" in duration:
+            disc_price = price - 40
+        else:
+            disc_price = price - 10
+        
+        text += f"⏱️ **{duration}**\n"
+        text += f"💰 ~₹{price}~ **₹{disc_price}**\n"
+        text += f"✅ In Stock\n\n"
+        
+        buttons.append([InlineKeyboardButton(f"📦 Buy {duration} - ₹{disc_price}", callback_data="add_balance")])
+    
+    text += "👇 **Select duration below:**"
+    buttons.append([InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")])
+    
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await query.edit_message_text
+      
+elif data == "add_balance":
+    await query.answer()
+    
+    user = query.from_user
+    username = f"@{user.username}" if user.username else user.first_name
+    user_id = user.id
+    
+    upi_id = "mryashisbusy@fam"
+    
+    caption_text = (
+        "💳 **UPI PAYMENT / SCAN & PAY**\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👤 **Name:** Yash\n"
+        f"🆔 **UPI ID:** `{upi_id}`\n"
+        "⏱️ **Valid for:** 5:00 minutes\n\n"
+        "📋 **How to pay:
     keyboard = [
         [InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]
     ]
