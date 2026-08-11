@@ -79,7 +79,8 @@ async def shop_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
   query = update.callback_query
   await query.answer()
 
-  keyboard = [[InlineKeyboardButton("🔑 SILENT-CHEATS LITE", callback_data="item_21")],
+  keyboard = [
+      [InlineKeyboardButton("🔑 SILENT-CHEATS LITE", callback_data="item_21")],
 [InlineKeyboardButton("🔑 SILENT-CHEATS BRUTAL", callback_data="item_22")],
 [InlineKeyboardButton("🔑 SILENT-CHEATS APK MOD", callback_data="item_23")],
 [InlineKeyboardButton("🔑 Rapid Core - Root Safe", callback_data="item_24")],
