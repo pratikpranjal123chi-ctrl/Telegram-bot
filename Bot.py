@@ -311,7 +311,24 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     buttons.append([InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")])
     
     reply_markup = InlineKeyboardMarkup(buttons)
-    await query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+    await query.edit_message_text
+      
+elif data == "add_balance":
+    await query.answer()
+    
+    user = query.from_user
+    username = f"@{user.username}" if user.username else user.first_name
+    user_id = user.id
+    
+    text = "💳 **Payment & Balance Instructions:**\n\nTo purchase the key, please send payment to the admin and share a screenshot along with your User ID.\n\n👤 **Admin:** @Godmodesx"
+    
+    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]]), parse_mode="Markdown")
+    
+    try:
+        print(f"New purchase attempt by user: {username} (ID: {user_id})")
+    except Exception as e:
+        print(f"Error: {e}")
+        (text, reply_markup=reply_markup, parse_mode="Markdown")
 
 # 4. Main Application Setup
 def main():
@@ -325,15 +342,7 @@ def main():
     
 
 
-# 4. Main Application Setup
-def main():
-  app = Application.builder().token(BOT_TOKEN).build()
 
-  app.add_handler(CommandHandler("start", start))
-  app.add_handler(CallbackQueryHandler(button_handler))
-
-  print("Bot is running...")
-  app.run_polling()
 
 
 if __name__ == "__main__":
