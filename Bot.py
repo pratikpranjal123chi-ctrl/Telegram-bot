@@ -79,7 +79,16 @@ async def shop_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
   query = update.callback_query
   await query.answer()
 
-  keyboard = [
+  keyboard = [[InlineKeyboardButton("🔑 SILENT-CHEATS LITE", callback_data="item_21")],
+[InlineKeyboardButton("🔑 SILENT-CHEATS BRUTAL", callback_data="item_22")],
+[InlineKeyboardButton("🔑 SILENT-CHEATS APK MOD", callback_data="item_23")],
+[InlineKeyboardButton("🔑 Rapid Core - Root Safe", callback_data="item_24")],
+[InlineKeyboardButton("🔑 PRIME APKMOD", callback_data="item_25")],
+[InlineKeyboardButton("🔑 PATOTEAM APKMOD", callback_data="item_26")],
+[InlineKeyboardButton("🔑 IOS-MIGUL PRO", callback_data="item_27")],
+[InlineKeyboardButton("🔑 Haxx Cker Pro", callback_data="item_28")],
+[InlineKeyboardButton("🔑 HG CHEAT APKMOD", callback_data="item_29")],
+
       [InlineKeyboardButton("🔑 Drip Client - Non Root", callback_data="item_1")],
       [InlineKeyboardButton("🔑 Drip Client - Root", callback_data="item_2")],
       [InlineKeyboardButton("🔑 Fluorite FF iOS", callback_data="item_3")],
