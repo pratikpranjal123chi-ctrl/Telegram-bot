@@ -345,40 +345,7 @@ elif data == "add_balance":
         await query.message.delete()
         await context.bot.send_photo(
             chat_id=query.message.chat_id,
-            photo="https://i.ibb.co/6y4G8v6/qr.jpg",
-            caption=caption_text,
-            reply_markup=reply_markup,
-            parse_mode="Markdown"
-        )
-    except Exception as e:
-        text_fallback = (
-            "💳 **UPI PAYMENT / SCAN & PAY**\n\n"
-            f"👤 **Name:** Yash\n"
-            f"🆔 **UPI ID:** `{upi_id}`\n\n"
-            "Please pay and send screenshot to @Godmodesx"
-        )
-        await query.edit_message_text(text_fallback, reply_markup=reply_markup, parse_mode="Markdown")
-    
-    try:
-        print(f"New purchase attempt by user: {username} (ID: {user_id})")
-    except Exception as err:
-        print(f"Error: {err}")
-        
-    
-    user = query.from_user
-    username = f"@{user.username}" if user.username else user.first_name
-    user_id = user.id
-    
-    text = "💳 **Payment & Balance Instructions:**\n\nTo purchase the key, please send payment to the admin and share a screenshot along with your User ID.\n\n👤 **Admin:** @Godmodesx"
-    
-    await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Back to Shop", callback_data="shop")]]), parse_mode="Markdown")
-    
-    try:
-        print(f"New purchase attempt by user: {username} (ID: {user_id})")
-    except Exception as e:
-        print(f"Error: {e}")
-        (text, reply_markup=reply_markup, parse_mode="Markdown")
-
+            photo="
 # 4. Main Application Setup
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
